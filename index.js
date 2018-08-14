@@ -11,6 +11,14 @@ const ROCKS = []
 const START = document.getElementById('start')
 
 var gameInterval = null
+var rockInterval = 1000;
+
+var scoreDiv = document.createElement('Div');
+var score = 0;
+scoreDiv.setAttribute('style', 'margin-left: 750px');
+scoreDiv.innerHTML = `Score:  ${score}`;
+document.body.appendChild(scoreDiv);
+
 
 /**
  * Be aware of what's above this line,
@@ -105,6 +113,12 @@ function createRock(x) {
      */
     }else{
       rock.remove();
+      score += 1;
+      scoreDiv.innerHTML = `Score:  ${score}`;
+      if (rockInterval > 100){
+      rockInterval -= (score * 100);
+      console.log(rockInterval);
+      }
     }
   }
 
@@ -134,7 +148,6 @@ function endGame() {
 }
 
 function moveDodger(e) {
-  console.log(e);
   // implement me!
   /**
    * This function should call `moveDodgerLeft()`
@@ -166,7 +179,7 @@ function moveDodger(e) {
        window.requestAnimationFrame(function(){
          var currentPosition = positionToInteger(DODGER.style.left);
      if (currentPosition > 0){
-         DODGER.style.left = `${currentPosition - 4}px`;
+         DODGER.style.left = `${currentPosition - 8}px`;
      }
   })}
   
@@ -180,7 +193,7 @@ function moveDodger(e) {
        window.requestAnimationFrame(function(){
          var currentPosition = positionToInteger(DODGER.style.left);
      if (currentPosition < 360){
-         DODGER.style.left = `${currentPosition + 4}px`;
+         DODGER.style.left = `${currentPosition + 8}px`;
      }
        
 })}
@@ -197,10 +210,10 @@ function positionToInteger(p) {
 
 function start() {
   window.addEventListener('keydown', moveDodger)
-
+  
   START.style.display = 'none'
-
+  
   gameInterval = setInterval(function() {
     createRock(Math.floor(Math.random() *  (GAME_WIDTH - 20)))
-  }, 1000)
+  }, rockInterval);
 }
