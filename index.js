@@ -115,7 +115,7 @@ function createRock(x) {
       rock.remove();
       score += 1;
       scoreDiv.innerHTML = `Score:  ${score}`;
-      rockInterval--;
+      rockInterval = rockInterval * .9999999;
       gameInterval = setInterval(function() {
     createRock(Math.floor(Math.random() *  (GAME_WIDTH - 20)))
   }, rockInterval);
